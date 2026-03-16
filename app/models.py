@@ -1,5 +1,5 @@
 from . import db
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class UserProfile(db.Model):
     # You can use this to change the table name. The default convention is to use
@@ -37,3 +37,7 @@ class UserProfile(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
+    
+    def check_password(stored_password_hash, submitted_password):
+        """Verifies hashed password"""
+        return check_password_hash( stored_password_hash, submitted_password)

@@ -24,6 +24,7 @@ def get_uploaded_images():
             if file.lower().endswith(('.png', '.jpg', '.jpeg')):
             # print (os.path.join(subdir, file))
                 lst.append(file)
+    # print(lst)
     return lst
 # get_uploaded_images()
 
@@ -47,7 +48,14 @@ def files():
     lst = get_uploaded_images()
     return render_template('files.html', lst=lst)
     
-
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out. Please come again.")
+    return redirect(url_for('home'))
+    
+    
 
 @app.route('/upload', methods=['POST', 'GET'])
 @login_required
@@ -70,7 +78,7 @@ def upload():
         # Get file data and save to your uploads folder
         flash('File Saved', 'success')
         
-        return redirect(url_for('home')) # Update this to redirect the user to a route that displays all uploaded image files
+        return redirect(url_for('files')) # Update this to redirect the user to a route that displays all uploaded image files
 
     # else:
     #     flash(f"Form Errors: {form.errors}. Example: .png and .jpg")
@@ -91,7 +99,9 @@ def login():
         password = form.password.data
 
         user = db.session.execute(db.select(UserProfile).filter_by(username=name)).scalar_one_or_none()
-        
+        if user==None:
+            flash("Cannot find user!")
+            return render_template('login.html', form=form, UserProfile=UserProfile)  
         # process the data    
         dbuser=user.username
         dbpassword=user.password

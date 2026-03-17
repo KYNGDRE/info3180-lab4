@@ -30,8 +30,8 @@ img{
   grid-template-rows: 300px 300px; */
   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
   background-color: dodgerblue;
-  row-gap: 50px;
-  column-gap: 50px;
+  row-gap: 40px;
+  column-gap: 20px;
   /* padding: 30px; */
 }
 

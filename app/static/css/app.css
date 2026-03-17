@@ -18,3 +18,23 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+img{
+    width:275px;
+    height:275px;
+}
+
+#a{
+  display: grid;
+  /* grid-template-columns: 22% 22% 22%;
+  grid-template-rows: 300px 300px; */
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  background-color: dodgerblue;
+  row-gap: 50px;
+  column-gap: 50px;
+  /* padding: 30px; */
+}
+
+.grid-item {
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 import os
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash, session, abort
+from flask import render_template, request, redirect, url_for, flash, session, abort, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
 from app.models import UserProfile
@@ -11,16 +11,42 @@ from app.forms import LoginForm, UploadForm
 # Routing for your application.
 ###
 
+# rootdir = os.getcwd()
+# print (f" Current directory: {rootdir}")
+
+def get_uploaded_images():
+    lst=[]
+    rootdir = os.getcwd()
+    # print (rootdir)
+    for subdir, dirs, files in os.walk(rootdir + '/uploads'):
+        for file in files:
+            # Optional: filter only images
+            if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+            # print (os.path.join(subdir, file))
+                lst.append(file)
+    return lst
+# get_uploaded_images()
+
 @app.route('/')
 def home():
     """Render website's home page."""
     return render_template('home.html')
 
-
 @app.route('/about/')
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename)
+
+@app.route('/files')
+@login_required
+def files():
+    lst = get_uploaded_images()
+    return render_template('files.html', lst=lst)
+    
 
 
 @app.route('/upload', methods=['POST', 'GET'])
@@ -46,11 +72,9 @@ def upload():
         
         return redirect(url_for('home')) # Update this to redirect the user to a route that displays all uploaded image files
 
-    else:
-        flash(f"Form Errors: {form.errors}. Example: .png and .jpg")
-        print("Form Errors:", form.errors)
-
-
+    # else:
+    #     flash(f"Form Errors: {form.errors}. Example: .png and .jpg")
+    #     print("Form Errors:", form.errors)
     return render_template('upload.html', form=form)
 
 

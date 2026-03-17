@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}"> -->
+
+{% block main %}
+<p>Your Photos:</p> 
+<!-- <div id="a">
+    <ul>       
+        {% for item in lst %}         
+            <li><img src="{{ url_for('get_image', filename=item ) }}"></li>     
+            <p>{{ item }}</p>  
+        {% endfor %} 
+</div> -->
+
+<div id="a">       
+    {% for item in lst %}         
+        <img src="{{ url_for('get_image', filename=item ) }}">    
+        <!-- <p>{{ item }}</p>   -->
+    {% endfor %} 
+</div>
+
+{% endblock %}

@@ -6,10 +6,6 @@ from .config import Config
 from flask_migrate import Migrate
 
 
-# flask db init
-# flask db migrate
-# flask db upgrade
-
 app = Flask(__name__)
 app.config.from_object(Config)
 

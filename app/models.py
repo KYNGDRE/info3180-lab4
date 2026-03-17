@@ -38,6 +38,6 @@ class UserProfile(db.Model):
     def __repr__(self):
         return '<User %r>' % (self.username)
     
-    def check_password(stored_password_hash, submitted_password):
+    def check_password(self, stored_password_hash, submitted_password):
         """Verifies hashed password"""
-        return check_password_hash( stored_password_hash, submitted_password)
+        return check_password_hash(stored_password_hash, submitted_password)
